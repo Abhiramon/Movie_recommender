@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content%}
+
+<h3>Recommendations for {{given_movie}} are: </h3>
+	<table class="table">
+	<tr>
+		<th>Movie name</th>
+	</tr>
+	{% for movie in movies %}
+	<tr>
+		<td>{{movie}}</td>
+	</tr>
+	{% endfor %}
+	</table>
+
+{% endblock %}
+
