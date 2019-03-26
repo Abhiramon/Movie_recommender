@@ -1,0 +1,9 @@
+numpy
+pandas
+seaborn
+surprise
+nltk
+sklearn
+scipy
+matplotlib
+warnings
