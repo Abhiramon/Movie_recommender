@@ -123,7 +123,6 @@ def get_recommendations(title):
 
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-
     # In[35]:
 
     # We now have a pairwise cosine similarity matrix for all the movies in our dataset. The next step is to write a function that returns the 30 most similar movies based on the cosine similarity score.
