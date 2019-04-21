@@ -21,7 +21,7 @@ def result():
 	else:
 		movie_name = request.args.get("movie_name")
 
-	recommended_movies = get_recommendations(movie_name)
+	recommended_movies = get_recommendations(movie_name, 5)
 
 	return render_template("result.html", given_movie = movie_name, movies = recommended_movies)
 
