@@ -7,8 +7,10 @@ pipeline {
 		stage('Build'){
 
 			steps {
-				
-				sh 'ls'
+
+				sh 'virtualenv -p pyhton3 pyenv'
+				sh 'source pyenv/bin/activate'
+				sh 'pip install -r requirements.txt'
 
 			}
 		}
@@ -16,7 +18,8 @@ pipeline {
 		stage('Test'){
 
 			steps {
-				echo "Testing"
+				sh 'source pyenv/bin/activate'
+				sh 'python test_get_recommendations.py'
 
 			}
 		}
