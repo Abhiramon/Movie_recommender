@@ -8,7 +8,7 @@ pipeline {
 
 			steps {
 
-				sh 'virtualenv -p python3 pyenv'
+				sh 'virtualenv -p python3.6 pyenv'
 				sh 'source pyenv/bin/activate'
 				sh 'pip install -r requirements.txt'
 
