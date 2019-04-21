@@ -34,7 +34,7 @@ import warnings; warnings.simplefilter('ignore')
 
 # In[25]:
 
-def get_recommendations(title):
+def get_recommendations(title, number_of_recommendations):
 
     # md = pd. read_csv('data/movies_metadata.csv')
     #
@@ -119,28 +119,12 @@ def get_recommendations(title):
 
     smd = pd.read_csv('data/smd.txt')
 
-    print(type(smd))
-
-    start = time.time()
 
     tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
     tfidf_matrix = tf.fit_transform(smd['description'].values.astype('U'))
 
-    end = time.time()
-    print("tf and tfidf_matrix Creation " + str(end - start))
-
-    # print(type(tfidf_matrix), type(tf), type(smd))
-
     # In[33]:
 
-
-    # #### Cosine Similarity
-    #
-    # I will be using the Cosine Similarity to calculate a numeric quantity that denotes the similarity between two movies. Mathematically, it is defined as follows:
-    #
-    # $cosine(x,y) = \frac{x. y^\intercal}{||x||.||y||} $
-    #
-    # Since we have used the TF-IDF Vectorizer, calculating the Dot Product will directly give us the Cosine Similarity Score. Therefore, we will use sklearn's **linear_kernel** instead of cosine_similarities since it is much faster.
 
     # In[34]:
 
@@ -166,21 +150,21 @@ def get_recommendations(title):
     idx = indices[title]
     sim_scores = list(enumerate(cosine_sim[idx]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:31]
+
+    #Select from 1 to exclude the title
+    sim_scores = sim_scores[1:number_of_recommendations + 1]
+
     movie_indices = [i[0] for i in sim_scores]
     return titles.iloc[movie_indices]
 
 
-# We're all set. Let us now try and get the top recommendations for a few movies and see how good the recommendations are.
 
 # In[38]:
 
-print("Started")
-print(get_recommendations('The Godfather').head(10))
-print("Done")
-
-
-# In[39]:
-
-
-get_recommendations('The Dark Knight').head(10)
+# print(get_recommendations('The Godfather', 5)
+#
+#
+# # In[39]:
+#
+#
+# get_recommendations('The Dark Knight', 5)
