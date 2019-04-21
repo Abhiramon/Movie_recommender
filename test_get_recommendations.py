@@ -1,7 +1,7 @@
 from recommender_engine import get_recommendations
 
 
-def test_get_recommendations(title)
+def test_get_recommendations(title):
 
     recommendations = get_recommendations(title).head(10)
 
