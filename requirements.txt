@@ -7,8 +7,6 @@ Jinja2==2.10
 joblib==0.13.2
 kiwisolver==1.0.1
 MarkupSafe==1.1.1
-matplotlib==3.0.3
-nltk==3.4
 numpy==1.16.2
 pandas==0.24.2
 pyparsing==2.3.1
@@ -20,7 +18,6 @@ scipy==1.2.1
 singledispatch==3.4.0.3
 six==1.12.0
 sklearn==0.0
-surprise==0.1
 Werkzeug==0.15.1
 WTForms==2.2.1
 time
