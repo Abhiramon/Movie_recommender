@@ -16,7 +16,7 @@
 
 # In[24]:
 
-
+import time
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -36,75 +36,100 @@ import warnings; warnings.simplefilter('ignore')
 
 def get_recommendations(title):
 
-    md = pd. read_csv('data/movies_metadata.csv')
-
-
-    # In[26]:
-
-
-    md['genres'] = md['genres'].fillna('[]').apply(literal_eval).apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
-
-
-    # ## Content Based Recommender
+    # md = pd. read_csv('data/movies_metadata.csv')
     #
-    # The recommender we built in the previous section suffers some severe limitations. For one, it gives the same recommendation to everyone, regardless of the user's personal taste. If a person who loves romantic movies (and hates action) were to look at our Top 15 Chart, s/he wouldn't probably like most of the movies. If s/he were to go one step further and look at our charts by genre, s/he wouldn't still be getting the best recommendations.
     #
-    # For instance, consider a person who loves *Dilwale Dulhania Le Jayenge*, *My Name is Khan* and *Kabhi Khushi Kabhi Gham*. One inference we can obtain is that the person loves the actor Shahrukh Khan and the director Karan Johar. Even if s/he were to access the romance chart, s/he wouldn't find these as the top recommendations.
+    # # In[26]:
+    # #Measuring time for performance improvements
+    # start = time.time()
     #
-    # To personalise our recommendations more, I am going to build an engine that computes similarity between movies based on certain metrics and suggests movies that are most similar to a particular movie that a user liked. Since we will be using movie metadata (or content) to build this engine, this also known as **Content Based Filtering.**
+    # md['genres'] = md['genres'].fillna('[]').apply(literal_eval).apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
     #
-    # I will build two Content Based Recommenders based on:
-    # * Movie Overviews and Taglines
-    # * Movie Cast, Crew, Keywords and Genre
+    # end = time.time()
+    # print("md Creation: " + str(end - start))
+    # # ## Content Based Recommender
+    # #
+    # # The recommender we built in the previous section suffers some severe limitations. For one, it gives the same recommendation to everyone, regardless of the user's personal taste. If a person who loves romantic movies (and hates action) were to look at our Top 15 Chart, s/he wouldn't probably like most of the movies. If s/he were to go one step further and look at our charts by genre, s/he wouldn't still be getting the best recommendations.
+    # #
+    # # For instance, consider a person who loves *Dilwale Dulhania Le Jayenge*, *My Name is Khan* and *Kabhi Khushi Kabhi Gham*. One inference we can obtain is that the person loves the actor Shahrukh Khan and the director Karan Johar. Even if s/he were to access the romance chart, s/he wouldn't find these as the top recommendations.
+    # #
+    # # To personalise our recommendations more, I am going to build an engine that computes similarity between movies based on certain metrics and suggests movies that are most similar to a particular movie that a user liked. Since we will be using movie metadata (or content) to build this engine, this also known as **Content Based Filtering.**
+    # #
+    # # I will build two Content Based Recommenders based on:
+    # # * Movie Overviews and Taglines
+    # # * Movie Cast, Crew, Keywords and Genre
+    # #
+    # # Also, as mentioned in the introduction, I will be using a subset of all the movies available to us due to limiting computing power available to me.
     #
-    # Also, as mentioned in the introduction, I will be using a subset of all the movies available to us due to limiting computing power available to me.
-
-    # In[27]:
-
-
-    links_small = pd.read_csv('data/links_small.csv')
-    links_small = links_small[links_small['tmdbId'].notnull()]['tmdbId'].astype('int')
-
-
-    # In[28]:
-
-
-    md = md.drop([19730, 29503, 35587])
-
-
-    # In[29]:
-
-
-    #Check EDA Notebook for how and why I got these indices.
-    md['id'] = md['id'].astype('int')
-
-
-    # In[30]:
-
-
-    smd = md[md['id'].isin(links_small)]
-
-
-    # We have **9099** movies avaiable in our small movies metadata dataset which is 5 times smaller than our original dataset of 45000 movies.
-
-    # ### Movie Description Based Recommender
+    # # In[27]:
+    # #Measuring time for performance improvements
+    # start = time.time()
     #
-    # Let us first try to build a recommender using movie descriptions and taglines. We do not have a quantitative metric to judge our machine's performance so this will have to be done qualitatively.
+    # links_small = pd.read_csv('data/links_small.csv')
+    # links_small = links_small[links_small['tmdbId'].notnull()]['tmdbId'].astype('int')
+    #
+    # end = time.time()
+    # print("links_small Creation: " + str(end - start))
+    #
+    #
+    #
+    #
+    # # In[28]:
+    #
+    #
+    # md = md.drop([19730, 29503, 35587])
+    #
+    #
+    # # In[29]:
+    #
+    #
+    # #Check EDA Notebook for how and why I got these indices.
+    # md['id'] = md['id'].astype('int')
+    #
+    #
+    # # In[30]:
+    # #Measuring time for performance improvements
+    # start = time.time()
+    #
+    #
+    # smd = md[md['id'].isin(links_small)]
+    #
+    #
+    # # We have **9099** movies avaiable in our small movies metadata dataset which is 5 times smaller than our original dataset of 45000 movies.
+    #
+    # # ### Movie Description Based Recommender
+    # #
+    # # Let us first try to build a recommender using movie descriptions and taglines. We do not have a quantitative metric to judge our machine's performance so this will have to be done qualitatively.
+    #
+    # # In[31]:
+    #
+    #
+    # smd['tagline'] = smd['tagline'].fillna('')
+    # smd['description'] = smd['overview'] + smd['tagline']
+    # smd['description'] = smd['description'].fillna('')
+    #
+    #
+    # end = time.time()
+    # print("smd Creation and Modification: " + str(end - start))
+    # # In[32]:
+    #
+    # #Writing smd to file for future use
+    # smd.to_csv("data/smd.txt")
+    #Measuring time for performance improvements
 
-    # In[31]:
+    smd = pd.read_csv('data/smd.txt')
 
+    print(type(smd))
 
-    smd['tagline'] = smd['tagline'].fillna('')
-    smd['description'] = smd['overview'] + smd['tagline']
-    smd['description'] = smd['description'].fillna('')
-
-
-    # In[32]:
-
+    start = time.time()
 
     tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
-    tfidf_matrix = tf.fit_transform(smd['description'])
+    tfidf_matrix = tf.fit_transform(smd['description'].values.astype('U'))
 
+    end = time.time()
+    print("tf and tfidf_matrix Creation " + str(end - start))
+
+    # print(type(tfidf_matrix), type(tf), type(smd))
 
     # In[33]:
 
@@ -150,8 +175,9 @@ def get_recommendations(title):
 
 # In[38]:
 
-
-get_recommendations('The Godfather').head(10)
+print("Started")
+print(get_recommendations('The Godfather').head(10))
+print("Done")
 
 
 # In[39]:
