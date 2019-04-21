@@ -8,9 +8,10 @@ pipeline {
 
 			steps {
 
-				sh 'virtualenv -p python3.6 pyenv'
-				sh 'source pyenv/bin/activate'
-				sh 'pip install -r requirements.txt'
+				sh '''virtualenv -p python3.6 pyenv
+				source pyenv/bin/activate
+				pip install -r requirements.txt
+				'''
 
 			}
 		}
@@ -18,8 +19,8 @@ pipeline {
 		stage('Test'){
 
 			steps {
-				sh 'source pyenv/bin/activate'
-				sh 'python test_get_recommendations.py'
+				sh '''source pyenv/bin/activate
+				python test_get_recommendations.py'''
 
 			}
 		}
