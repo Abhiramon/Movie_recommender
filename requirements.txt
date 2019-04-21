@@ -21,3 +21,4 @@ sklearn==0.0
 Werkzeug==0.15.1
 WTForms==2.2.1
 time
+fuzzywuzzy

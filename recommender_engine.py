@@ -17,6 +17,7 @@
 # In[24]:
 
 import time
+from fuzzywuzzy import fuzz
 import pandas as pd
 import numpy as np
 from ast import literal_eval
@@ -61,9 +62,21 @@ def get_recommendations(title, number_of_recommendations):
     # In[37]:
 
 
+    # Creates a Levenshtein distance score list
+    title_fuzzy_scores = [[fuzz.ratio(title.lower(), list_title.lower()), list_title] for list_title in titles]
 
-    idx = indices[title]
+    #Sort score in descending order
+    sorted_title_fuzzy_scores = sorted(title_fuzzy_scores, key = lambda x: x[0], reverse=True)
+
+    #Choose best match to the title given by the user
+    best_match_title = sorted_title_fuzzy_scores[0][1]
+
+    #Search titles for the matched title
+    idx = indices[best_match_title]
+
+
     sim_scores = list(enumerate(cosine_sim[idx]))
+
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     #Select from 1 to exclude the title
