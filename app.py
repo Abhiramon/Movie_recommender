@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request
 from recommender_engine import get_recommendations
-
+import os
 
 app = Flask(__name__)
 
@@ -27,4 +27,4 @@ def result():
 
 
 if __name__ == "__main__":
-	app.run(debug = True)
+	app.run(debug = True, host='0.0.0.0', port = os.environ['PORT'])
