@@ -61,12 +61,12 @@ def get_recommendations(title, number_of_recommendations):
     #Sort score in descending order
     sorted_title_fuzzy_scores = sorted(title_fuzzy_scores, key = lambda x: x[0], reverse=True)
 
-    print(sorted_title_fuzzy_scores[0:20])
+    # print(sorted_title_fuzzy_scores[0:20])
 
     #Choose best match to the title given by the user
     best_match_title = sorted_title_fuzzy_scores[0][1]
 
-    print(best_match_title)
+    # print(best_match_title)
     #Search titles for the matched title
 
     idx = indices[best_match_title]
