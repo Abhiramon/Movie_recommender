@@ -81,6 +81,11 @@ def update_database():
     print("smd Creation and Modification: " + str(end - start))
     # In[32]:
 
+    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+    tfidf_matrix = tf.fit_transform(smd['description'].values.astype('U'))
+
+    print(type(tfidf_matrix))
+
+    scipy.sparse.save_npz('data/tfidf_matrix.npz', tfidf_matrix)
     #Writing smd to file for future use
     smd.to_csv("data/smd.txt")
-    Measuring time for performance improvements

@@ -20,6 +20,7 @@ import time
 from fuzzywuzzy import fuzz
 import pandas as pd
 import numpy as np
+import scipy.sparse
 from ast import literal_eval
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
@@ -35,17 +36,11 @@ def get_recommendations(title, number_of_recommendations):
 
     smd = pd.read_csv('data/smd.txt')
 
-
-    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
-    tfidf_matrix = tf.fit_transform(smd['description'].values.astype('U'))
-
-    # In[33]:
-
-
-    # In[34]:
-
+    
+    tfidf_matrix = scipy.sparse.load_npz('data/tfidf_matrix.npz')
 
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+    # cosine_sim = np.load('data/cosine_sim.npy')
 
     # In[35]:
 
@@ -63,7 +58,7 @@ def get_recommendations(title, number_of_recommendations):
 
 
     # Creates a Levenshtein distance score list
-    title_fuzzy_scores = [[fuzz.ratio(title.lower(), list_title.lower()), list_title] for list_title in titles]
+    title_fuzzy_scores = [[fuzz.partial_ratio(title.lower(), list_title.lower()) + fuzz.token_set_ratio(title.lower(), list_title.lower()), list_title] for list_title in titles]
 
     #Sort score in descending order
     sorted_title_fuzzy_scores = sorted(title_fuzzy_scores, key = lambda x: x[0], reverse=True)
@@ -73,7 +68,6 @@ def get_recommendations(title, number_of_recommendations):
 
     #Search titles for the matched title
     idx = indices[best_match_title]
-
 
     sim_scores = list(enumerate(cosine_sim[idx]))
 

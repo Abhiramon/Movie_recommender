@@ -10,6 +10,6 @@ def test_get_recommendations(title):
 
 if __name__ == '__main__':
 
-    title = "The Dark Kni"
+    title = "dark night"
 
     test_get_recommendations(title)
