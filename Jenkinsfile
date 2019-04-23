@@ -28,7 +28,7 @@ pipeline {
 		stage('Deploy'){
 
 			steps {
-				sh '''docker login --username=_ --password=b11a33c7-77fc-461f-875b-5b79bcf72221 registry.heroku.com
+				sh '''docker login --username=_ --password=3a16c88c-279b-4ee2-80e6-b7252d1a857f registry.heroku.com
 				docker build -t registry.heroku.com/similar-movie/web .
 				docker push registry.heroku.com/similar-movie/web
 				heroku container:release web --app similar-movie
