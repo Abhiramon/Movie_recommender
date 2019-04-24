@@ -13,6 +13,7 @@ pipeline {
 				pip install -r requirements.txt
 				pip install requests
 				docker build -t abhiramon/movie-recommender .
+				docker run -d -p 5001:5001 --name movie-recommender-container abhiramon/movie-recommender:latest
 				'''
 			}
 		}
@@ -21,7 +22,6 @@ pipeline {
 
 			steps {
 				sh '''source pyenv/bin/activate
-				docker run -d -p 5001:5001 --name movie-recommender-container abhiramon/movie-recommender
 				python run_tests.py'''
 
 			}
