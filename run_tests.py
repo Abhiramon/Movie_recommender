@@ -23,7 +23,7 @@ def test_movie_submission(url, title):
 
 if __name__ == "__main__":
 
-	url = "http://localhost"
+	url = "http://localhost:5001"
 
 	test_app_running(url)
 	test_get_recommendations("casino royale", 5)
