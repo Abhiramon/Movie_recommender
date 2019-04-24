@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request
 from recommender_engine import get_recommendations
 import os
+import sys
 
 app = Flask(__name__)
 
@@ -17,11 +18,14 @@ def about():
 def result():
 	if request.method == "POST":
 		movie_name = request.form["movie_name"]
+		sys.stdout.write("Movie name: {}".format(movie_name))
 
 	else:
 		movie_name = request.args.get("movie_name")
 
+
 	recommended_movies = get_recommendations(movie_name, 5)
+	# sys.stdout.write("Suggested five movies like {}, {}".format(recommended_movies[0], recommended_movies))
 
 	return render_template("result.html", given_movie = movie_name, movies = recommended_movies)
 
