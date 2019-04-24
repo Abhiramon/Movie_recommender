@@ -1,21 +1,3 @@
-
-# coding: utf-8
-
-# # Movies Recommender System
-
-# <img src='http://labs.criteo.com/wp-content/uploads/2017/08/CustomersWhoBought3.jpg', width=500>
-
-# This is the second part of my Springboard Capstone Project on Movie Data Analysis and Recommendation Systems. In my first notebook, I attempted at narrating the story of film by performing an extensive exploratory data analysis on Movies Metadata collected from TMDB. I also built two extremely minimalist predictive models to predict movie revenue and movie success and visualise which features influence the output (revenue and success respectively).
-#
-# In this notebook, I will attempt at implementing a few recommendation algorithms (content based, popularity based and collaborative filtering) and try to build an ensemble of these models to come up with our final recommendation system. With us, we have two MovieLens datasets.
-#
-# * **The Full Dataset:** Consists of 26,000,000 ratings and 750,000 tag applications applied to 45,000 movies by 270,000 users. Includes tag genome data with 12 million relevance scores across 1,100 tags.
-# * **The Small Dataset:** Comprises of 100,000 ratings and 1,300 tag applications applied to 9,000 movies by 700 users.
-#
-# We will build our Simple Recommender using movies from the *Full Dataset* whereas all personalised recommender systems will make use of the small dataset (due to the computing power I possess being very limited). As a first step, let us build our simple recommender system.
-
-# In[24]:
-
 import time
 from fuzzywuzzy import fuzz
 import pandas as pd
@@ -30,7 +12,6 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 import warnings; warnings.simplefilter('ignore')
 
 
-# In[25]:
 
 def get_recommendations(title, number_of_recommendations):
 
@@ -42,18 +23,15 @@ def get_recommendations(title, number_of_recommendations):
     cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
     # cosine_sim = np.load('data/cosine_sim.npy')
 
-    # In[35]:
 
     # We now have a pairwise cosine similarity matrix for all the movies in our dataset. The next step is to write a function that returns the 30 most similar movies based on the cosine similarity score.
 
-    # In[36]:
 
 
     smd = smd.reset_index()
     titles = smd['title']
     # indices = pd.Series(smd.index, index=smd['title'])
     indices = dict(list(zip(smd['title'], smd.index)))
-    # In[37]:
 
     # Creates a Levenshtein distance score list
     title_fuzzy_scores = [[fuzz.ratio(title.lower(), list_title.lower()) + fuzz.partial_ratio(title.lower(), list_title.lower()), list_title] for list_title in titles]
@@ -82,16 +60,14 @@ def get_recommendations(title, number_of_recommendations):
 
     movie_indices = [i[0] for i in sim_scores]
 
+
+
     return titles.iloc[movie_indices]
 
 
 
-# In[38]:
-
-# print(get_recommendations('The Godfather', 5)
-#
-#
-# # In[39]:
-#
-#
-# get_recommendations('The Dark Knight', 5)
+# if __name__ == "__main__":
+    # print(get_recommendations('The Godfather', 5)
+    #
+    #
+    # get_recommendations('The Dark Knight', 5)
