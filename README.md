@@ -13,4 +13,5 @@ To deploy the application locally, use the following instructions:
 * Install docker. (Instructions for installation on ubuntu can be found at https://docs.docker.com/install/linux/docker-ce/ubuntu/ )
 * Pull the latest image using: sudo docker pull abhiramon/movie-recommender
 * Run the container using: sudo docker run -p 5001:5001 abhiramon/movie-recommender
+
 That's it! The app is now hosted locally on your browser at localhost:5001
